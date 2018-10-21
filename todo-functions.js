@@ -1,5 +1,5 @@
 
-// Read existing notes from local storage,
+// Fetch existing notes from local storage,
 
 const getSavedTasks = function () {
     toDoListJSON = localStorage.getItem("toDoList")
@@ -15,6 +15,30 @@ const getSavedTasks = function () {
 
 const saveToDoList = function (toDoList) {
     localStorage.setItem("toDoList", JSON.stringify(toDoList))
+}
+
+// toggle check box to change todo to completed
+
+const toggleBox = function (id) {
+    const todo = toDoList.find(function (todo) {
+    return todo.id === id
+    })
+
+    if (todo !== undefined) {
+        todo.completed = !todo.completed
+    }
+} 
+
+// remove todo button function,
+
+const removeButton = function (id) {
+    const todoIndex = toDoList.findIndex(function (todo) {
+    return todo.id === id
+    })
+    
+    if (todoIndex > -1) {
+        toDoList.splice(todoIndex, 1)
+    }
 }
 
 // Render toDoList 
@@ -39,18 +63,6 @@ const renderList = function (toDoList, filters) {
     })
 }
 
-// remove todo button function,
-
-const removeButton = function (id) {
-    const todoIndex = toDoList.findIndex(function (todo) {
-    return todo.id === id
-    })
-    
-    if (todoIndex > -1) {
-        toDoList.splice(todoIndex, 1)
-    }
-}
-    
 // generate the todo DOM,
 
 const generateToDoDOM = function (todo) {
@@ -61,7 +73,13 @@ const generateToDoDOM = function (todo) {
     
     // Setup todo checkbox,
     checkbox.setAttribute("type", "checkbox")
+    checkbox.checked = todo.completed
     todoEl.appendChild(checkbox)
+    checkbox.addEventListener("change", function (e) {
+        toggleBox(todo.id)
+        saveToDoList(toDoList)
+        renderList(toDoList, filters)
+    })
 
     // Setup todo text,
     todoText.textContent = todo.text
