@@ -1,7 +1,7 @@
 
 // Fetch existing notes from local storage,
 
-const getSavedTasks = function () {
+const getSavedTasks = () => {
     toDoListJSON = localStorage.getItem("toDoList")
 
     if (toDoListJSON !== null) {
@@ -13,16 +13,14 @@ const getSavedTasks = function () {
 
 // Save toDoList data
 
-const saveToDoList = function (toDoList) {
+const saveToDoList = (toDoList) => {
     localStorage.setItem("toDoList", JSON.stringify(toDoList))
 }
 
 // toggle check box to change todo to completed
 
-const toggleBox = function (id) {
-    const todo = toDoList.find(function (todo) {
-    return todo.id === id
-    })
+const toggleBox = (id) => {
+    const todo = toDoList.find((todo) => todo.id === id)
 
     if (todo !== undefined) {
         todo.completed = !todo.completed
@@ -31,10 +29,8 @@ const toggleBox = function (id) {
 
 // remove todo button function,
 
-const removeButton = function (id) {
-    const todoIndex = toDoList.findIndex(function (todo) {
-    return todo.id === id
-    })
+const removeButton = (id) => {
+    const todoIndex = toDoList.findIndex((todo) => todo.id === id)
     
     if (todoIndex > -1) {
         toDoList.splice(todoIndex, 1)
@@ -43,29 +39,27 @@ const removeButton = function (id) {
 
 // Render toDoList 
 
-const renderList = function (toDoList, filters) {
-    const search = toDoList.filter(function (todo) {
+const renderList = (toDoList, filters) => {
+    const search = toDoList.filter((todo) => {
         const searchTextMatch = todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
         const hideCompletedMatch = !filters.hideCompleted || !todo.completed
         
         return searchTextMatch && hideCompletedMatch
     }) 
 
-    const notComplete = search.filter(function (todo) {
-        return !todo.completed
-    })
+    const notComplete = search.filter((todo) => !todo.completed)
 
     document.querySelector("#tasks").innerHTML = ""
     document.querySelector("#tasks").appendChild(generateSummaryDOM(notComplete)) 
     
-    search.forEach(function (toDo) {
+    search.forEach((toDo) => {
      document.querySelector("#tasks").appendChild(generateToDoDOM(toDo))
     })
 }
 
 // generate the todo DOM,
 
-const generateToDoDOM = function (todo) {
+const generateToDoDOM = (todo) => {
     const todoEl = document.createElement("div")
     const checkbox = document.createElement("input")
     const todoText = document.createElement("span")
@@ -75,7 +69,7 @@ const generateToDoDOM = function (todo) {
     checkbox.setAttribute("type", "checkbox")
     checkbox.checked = todo.completed
     todoEl.appendChild(checkbox)
-    checkbox.addEventListener("change", function (e) {
+    checkbox.addEventListener("change", (e) => {
         toggleBox(todo.id)
         saveToDoList(toDoList)
         renderList(toDoList, filters)
@@ -88,7 +82,7 @@ const generateToDoDOM = function (todo) {
     // Setup removeButton,
     button.textContent = "x"
     todoEl.appendChild(button)
-    button.addEventListener("click", function (e) {
+    button.addEventListener("click", (e) => {
         removeButton(todo.id)
         saveToDoList(toDoList)
         renderList(toDoList, filters)
@@ -99,7 +93,7 @@ const generateToDoDOM = function (todo) {
 
 // get the DOM's element for list summary,
 
-const generateSummaryDOM = function (notComplete) {
+const generateSummaryDOM = (notComplete) => {
     const summary = document.createElement("h4")
     summary.textContent = `You have ${notComplete.length} uncompleted tasks left to complete!`
     return summary

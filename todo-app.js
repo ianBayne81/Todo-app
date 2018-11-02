@@ -7,12 +7,12 @@ const filters = {
 
 renderList(toDoList, filters) 
 
-document.querySelector("#search-text").addEventListener("input", function (e) {
+document.querySelector("#search-text").addEventListener("input", (e) => {
     filters.searchText = e.target.value
     renderList(toDoList, filters)
 })
 
-document.querySelector("#new-task-form").addEventListener("submit", function (e) {
+document.querySelector("#new-task-form").addEventListener("submit", (e) => {
     e.preventDefault()
     toDoList.unshift({
         id: uuidv4(),
@@ -24,7 +24,7 @@ document.querySelector("#new-task-form").addEventListener("submit", function (e)
     e.target.elements.newForm.value = ''
 })
 
-document.querySelector("#check").addEventListener('change', function (e) {
+document.querySelector("#check").addEventListener('change', (e) => {
     filters.hideCompleted = e.target.checked
     renderList(toDoList, filters)
 }) 
