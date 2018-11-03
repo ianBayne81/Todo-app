@@ -3,12 +3,7 @@
 
 const getSavedTasks = () => {
     toDoListJSON = localStorage.getItem("toDoList")
-
-    if (toDoListJSON !== null) {
-        return JSON.parse(toDoListJSON)
-    } else {
-        return []
-    }
+    return toDoListJSON !== null ? JSON.parse(toDoListJSON) : []
 }
 
 // Save toDoList data
