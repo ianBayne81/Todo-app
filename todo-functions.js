@@ -1,15 +1,21 @@
+'use strict'
 
 // Fetch existing notes from local storage,
 
 const getSavedTasks = () => {
-    toDoListJSON = localStorage.getItem("toDoList")
-    return toDoListJSON !== null ? JSON.parse(toDoListJSON) : []
-}
+    const toDoListJSON = localStorage.getItem('toDoList')
 
+    try {
+        return toDoListJSON ? JSON.parse(toDoListJSON) : []
+    } catch (e) {
+        return []
+    }
+}
+    
 // Save toDoList data
 
 const saveToDoList = (toDoList) => {
-    localStorage.setItem("toDoList", JSON.stringify(toDoList))
+    localStorage.setItem('toDoList', JSON.stringify(toDoList))
 }
 
 // toggle check box to change todo to completed
@@ -17,7 +23,7 @@ const saveToDoList = (toDoList) => {
 const toggleBox = (id) => {
     const todo = toDoList.find((todo) => todo.id === id)
 
-    if (todo !== undefined) {
+    if (todo) {
         todo.completed = !todo.completed
     }
 } 
