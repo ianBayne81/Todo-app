@@ -3,24 +3,46 @@
 <html>
 
 <head>
+    <title>To-do app</title>
+    <link href="/styles/styles.css" rel="stylesheet">
+    <link href="/images/favicon.png?v=1" rel="icon">
 </head>
 
 <body>
-    <h1>Todo list app</h1>
-    <input id="search-text" class="value" placeholder="search tasks"> <!-- create text input conatiner-->
-    <label>
-        <input id="check" type="checkbox"> Hide completed tasks <!-- create check box-->
-    </label>
-    <div id="tasks"> <!-- create section for list contents-->
-        <h4></h4>
+
+    <div class="header">
+        <div class="container">
+            <h1 class="header__title">To-do app</h1>
+            <h2 class="header__subtitle">What do you need to do?</h2>
+        </div>
     </div>
-    <form id="new-task-form">
-        <input type="text" placeholder="type new task" name="newForm" > <!-- create form for submission of value/s-->
-        <button>Add new task</button>
-    </form>
-    <script src="uuidv4-github.js"></script>
-    <script src="todo-functions.js"></script>
-    <script src="todo-app.js"></script>
+
+    <div class="actions">
+        <div class="actions__container">
+            <input id="search-text" class="input" placeholder="search tasks"> <!-- create text input conatiner-->
+            <label class="checkbox">
+                <input id="check" type="checkbox"> Hide completed tasks <!-- create check box-->
+            </label>
+        </div>
+    </div>
+    
+    <div class="container">
+            <form id="new-task-form">
+                    <input type="text" class="input" placeholder="type new task" name="newForm" > <!-- create form for submission of value/s-->
+                    <button class="button">Add new task</button>
+            </form>
+            <div id="tasks"> </div>
+    </div>
+
+    <hr color="black">
+        
+    <div class="footer">
+        <img src="/images/MIJTv2.jpg">
+    </div>
+    
+    <script src="/scripts/uuidv4-github.js"></script>
+    <script src="/scripts/todo-functions.js"></script>
+    <script src="/scripts/todo-app.js"></script>
 </body>
 
 </html>

@@ -30,7 +30,7 @@ const toggleBox = (id) => {
 
 // remove todo button function,
 
-const removeButton = (id) => {
+const removeTodo = (id) => {
     const todoIndex = toDoList.findIndex((todo) => todo.id === id)
     
     if (todoIndex > -1) {
@@ -41,6 +41,7 @@ const removeButton = (id) => {
 // Render toDoList 
 
 const renderList = (toDoList, filters) => {
+    const todoEl = document.querySelector("#tasks")
     const search = toDoList.filter((todo) => {
         const searchTextMatch = todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
         const hideCompletedMatch = !filters.hideCompleted || !todo.completed
@@ -50,26 +51,35 @@ const renderList = (toDoList, filters) => {
 
     const notComplete = search.filter((todo) => !todo.completed)
 
-    document.querySelector("#tasks").innerHTML = ""
-    document.querySelector("#tasks").appendChild(generateSummaryDOM(notComplete)) 
+    todoEl.innerHTML = ""
+    todoEl.appendChild(generateSummaryDOM(notComplete))
     
-    search.forEach((toDo) => {
-     document.querySelector("#tasks").appendChild(generateToDoDOM(toDo))
-    })
+    if (search.length > 0) {
+        search.forEach((toDo) => {
+            todoEl.appendChild(generateToDoDOM(toDo))
+            })
+    } else {
+        const messageEl = document.createElement('p')
+        messageEl.classList.add('empty-message')
+        messageEl.textContent = 'no to-dos to show'
+        todoEl.appendChild(messageEl)
+    }
+    
 }
 
 // generate the todo DOM,
 
 const generateToDoDOM = (todo) => {
-    const todoEl = document.createElement("div")
+    const todoEl = document.createElement("label")
+    const containerEl = document.createElement("div")
     const checkbox = document.createElement("input")
     const todoText = document.createElement("span")
-    const button = document.createElement("button")
+    const removeButton = document.createElement("button")
     
     // Setup todo checkbox,
     checkbox.setAttribute("type", "checkbox")
     checkbox.checked = todo.completed
-    todoEl.appendChild(checkbox)
+    containerEl.appendChild(checkbox)
     checkbox.addEventListener("change", (e) => {
         toggleBox(todo.id)
         saveToDoList(toDoList)
@@ -78,13 +88,20 @@ const generateToDoDOM = (todo) => {
 
     // Setup todo text,
     todoText.textContent = todo.text
-    todoEl.appendChild(todoText)
+    containerEl.appendChild(todoText)
+
+    //setup container
+
+    todoEl.classList.add('list-item')
+    containerEl.classList.add('list-item__container')
+    todoEl.appendChild(containerEl)
 
     // Setup removeButton,
-    button.textContent = "x"
-    todoEl.appendChild(button)
-    button.addEventListener("click", (e) => {
-        removeButton(todo.id)
+    removeButton.textContent = "remove"
+    removeButton.classList.add("button", "button--text")
+    todoEl.appendChild(removeButton)
+    removeButton.addEventListener("click", (e) => {
+        removeTodo(todo.id)
         saveToDoList(toDoList)
         renderList(toDoList, filters)
     })
@@ -96,6 +113,9 @@ const generateToDoDOM = (todo) => {
 
 const generateSummaryDOM = (notComplete) => {
     const summary = document.createElement("h4")
-    summary.textContent = `You have ${notComplete.length} uncompleted tasks left to complete!`
+    const plural = notComplete.length === 1 ? '' : 's'
+    summary.classList.add('list-title')
+    summary.textContent = `You have ${notComplete.length} uncompleted todo${plural}`
+    
     return summary
 }

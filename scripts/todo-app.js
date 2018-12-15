@@ -14,16 +14,28 @@ document.querySelector("#search-text").addEventListener("input", (e) => {
     renderList(toDoList, filters)
 })
 
+
+// trim input
+// only add todo if content is greater than 0
+
 document.querySelector("#new-task-form").addEventListener("submit", (e) => {
+    const text = e.target.elements.newForm.value.trim()
     e.preventDefault()
-    toDoList.unshift({
-        id: uuidv4(),
-        text: e.target.elements.newForm.value,
-        completed: false,
-    })
-    saveToDoList(toDoList)
-    renderList(toDoList, filters)
-    e.target.elements.newForm.value = ''
+
+    if (text.length > 0) {
+        toDoList.unshift({
+            id: uuidv4(),
+            text: text,
+            completed: false,
+        })
+        saveToDoList(toDoList)
+        renderList(toDoList, filters)
+        e.target.elements.newForm.value = ''
+    
+    } else {
+        return " Error: must enter a character"
+    }
+    
 })
 
 document.querySelector("#check").addEventListener('change', (e) => {
