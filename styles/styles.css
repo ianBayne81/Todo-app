@@ -27,7 +27,7 @@ html {
 }
 
 body {
-    background: #2B292E;
+  background: #2B292E;
   color: #fafafa;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 1.6rem;
@@ -75,7 +75,6 @@ form {
 .footer {
     display: flex;
     justify-content: center;
-    
     padding: 5px;
 }
 
